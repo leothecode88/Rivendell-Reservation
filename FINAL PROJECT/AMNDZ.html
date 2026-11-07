@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Angelo A. Mendoza">
+  <meta name="description" content="Reserve halls, chambers and gardens in Rivendell. A fan-made front-end booking prototype.">
+  <title>Rivendell Reservations</title>
+  <link rel="stylesheet" href="AMNDZ.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="#home">Rivendell Reservations</a>
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#venues">Venues</a></li>
+          <li><a href="#book">Reserve</a></li>
+          <li><a href="#records">My reservations</a></li>
+          <li><a href="#about">About and help</a></li>
+        </ul>   
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section id="home" class="hero" aria-labelledby="home-title">
+      <img src="https://static.wikia.nocookie.net/lotr/images/7/70/Jerry_Vanderstelt_-_Rivendell.jpg/revision/latest?cb=20180501204919" alt="The valley of Rivendell with waterfalls and tall trees" width="1600" height="700" onerror="this.onerror=null;this.src='assets/images/placeholder.svg'">
+      <div class="hero-text">
+        <h1 id="home-title">Rest a while in Rivendell</h1>
+        <p>Reserve a hall, chamber or garden in the Last Homely House. Choose a venue, pick a day and a time slot, and receive your reference number at once.</p>
+        <p class="hero-actions">
+          <a class="btn" href="#book">Reserve a venue</a>
+          <a class="btn alt" href="#records">View my reservations</a>
+        </p>
+      </div>
+    </section>
+
+    <section id="venues" class="wrap" aria-labelledby="venues-title">
+      <h2 id="venues-title">Venues of the valley</h2>
+      <p class="lead">Every venue can be reserved for one of three daily time slots.</p>
+      <div id="venue-grid" class="grid"></div>
+    </section>
+
+    <section id="book" class="wrap" aria-labelledby="form-title">
+      <h2 id="form-title">Reserve a venue</h2>
+      <p class="note">Demonstration only: no payment is taken and no message is sent. Prices are in silver pennies (sp).</p>
+
+      <form id="booking-form" novalidate>
+        <input type="hidden" id="edit-ref">
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Guest name</label>
+            <input type="text" id="name" autocomplete="name" aria-describedby="err-name" required>
+            <p class="error" id="err-name"></p>
+          </div>
+
+          <div class="field">
+            <label for="email">Email address</label>
+            <input type="email" id="email" autocomplete="email" aria-describedby="err-email" required>
+            <p class="error" id="err-email"></p>
+          </div>
+
+          <div class="field">
+            <label for="venue">Venue</label>
+            <select id="venue" aria-describedby="err-venue" required></select>
+            <p class="error" id="err-venue"></p>
+          </div>
+
+          <div class="field">
+            <label for="date">Date</label>
+            <input type="date" id="date" aria-describedby="err-date" required>
+            <p class="error" id="err-date"></p>
+          </div>
+
+          <div class="field">
+            <label for="slot">Time slot</label>
+            <select id="slot" aria-describedby="err-slot" required></select>
+            <p class="error" id="err-slot"></p>
+          </div>
+
+          <div class="field">
+            <label for="guests">Number of guests</label>
+            <input type="number" id="guests" min="1" step="1" inputmode="numeric" aria-describedby="guest-hint err-guests" required>
+            <p class="hint" id="guest-hint"></p>
+            <p class="error" id="err-guests"></p>
+          </div>
+
+          <div class="field full">
+            <label for="requests">Special requests (optional)</label>
+            <textarea id="requests" rows="3" maxlength="250" aria-describedby="err-requests"></textarea>
+            <p class="error" id="err-requests"></p>
+          </div>
+        </div>
+
+        <p class="form-actions">
+          <button class="btn" type="submit" id="submit-btn">Confirm reservation</button>
+          <button class="btn alt" type="button" id="cancel-edit" hidden>Discard changes</button>
+        </p>
+      </form>
+    </section>
+
+    <section id="confirmation" class="wrap" hidden aria-labelledby="confirmation-title">
+      <h2 id="confirmation-title" tabindex="-1">Reservation summary</h2>
+      <p class="note">Simulated: no real payment or message is sent. Keep the reference number to find this record later.</p>
+      <div id="confirmation-body"></div>
+    </section>
+
+    <section id="records" class="wrap" aria-labelledby="records-title">
+      <h2 id="records-title">My reservations</h2>
+
+      <div class="toolbar">
+        <div class="field">
+          <label for="search">Search</label>
+          <input type="search" id="search" placeholder="Name, reference or venue">
+        </div>
+
+        <div class="field">
+          <label for="filter-status">Status</label>
+          <select id="filter-status">
+            <option value="All">All statuses</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
+      </div>
+
+      <p id="record-count" class="hint" aria-live="polite"></p>
+      <div id="record-list" class="grid"></div>
+    </section>
+
+    <section id="about" class="wrap" aria-labelledby="about-title">
+      <h2 id="about-title">About and help</h2>
+      <p>Rivendell Reservations is a front-end prototype that helps travellers and the stewards of the valley book halls, chambers and gardens without double bookings.</p>
+
+      <h3>How to reserve</h3>
+      <ol>
+        <li>Browse the venues and press <em>Reserve this venue</em>, or use the form directly.</li>
+        <li>Enter your name, email, date, time slot and number of guests.</li>
+        <li>Press <em>Confirm reservation</em> to receive a reference number.</li>
+        <li>Find, edit, complete, cancel or delete the booking under <em>My reservations</em>.</li>
+      </ol>
+
+      <h3>Rules</h3>
+      <ul>
+        <li>Past dates cannot be reserved.</li>
+        <li>A venue can hold only one active reservation per date and time slot.</li>
+        <li>Guests cannot exceed the venue's capacity.</li>
+        <li>Cancelling a reservation frees its slot for someone else.</li>
+      </ul>
+
+      <p class="note">Records are stored only in this browser on this device (localStorage). Clearing site data removes them.</p>
+      <p class="note">Fan-made, non-commercial school project by Angelo A. Mendoza. Rivendell and related names belong to the world created by J.R.R. Tolkien; all descriptions here are original.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Rivendell Reservations, a Comprog 1 final project by Angelo A. Mendoza.</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="DATA.js"></script>
+  <script src="APP.js"></script>
+</body>
+</html>
